@@ -1,0 +1,373 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "SmartPlant API",
+    "version": "1.0.0",
+    "description": "Documentação da API SmartPlant"
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [{ "bearerAuth": [] }],
+  "tags": [
+    {
+      "name": "Autenticação",
+      "description": "Rotas de autenticação de usuário"
+    },
+    {
+      "name": "Plantas",
+      "description": "CRUD de plantas"
+    }
+  ],
+  "paths": {
+    "/api/auth/registro": {
+      "post": {
+        "summary": "Cadastro de novo usuário",
+        "tags": ["Autenticação"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": { "type": "string", "example": "João Silva" },
+                  "email": { "type": "string", "example": "usuario@email.com" },
+                  "password": { "type": "string", "example": "senha123" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Usuário cadastrado com sucesso" },
+          "400": { "description": "Email e senha são obrigatórios" },
+          "409": { "description": "Email já cadastrado" },
+          "500": { "description": "Erro ao cadastrar usuário" }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "summary": "Login do usuário",
+        "tags": ["Autenticação"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string", "example": "usuario@email.com" },
+                  "password": { "type": "string", "example": "senha123" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login realizado com sucesso (retorna token JWT)"
+          },
+          "400": { "description": "Email e senha são obrigatórios" },
+          "401": { "description": "Usuário ou senha inválidos" },
+          "500": { "description": "Erro ao fazer login" }
+        }
+      }
+    },
+    "/api/auth/usuario": {
+      "get": {
+        "summary": "Obtém os dados do usuário autenticado",
+        "tags": ["Autenticação"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Dados do usuário",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "nome": { "type": "string", "example": "João Silva" },
+                    "email": { "type": "string", "example": "usuario@email.com" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Token não fornecido ou inválido" },
+          "404": { "description": "Usuário não encontrado" },
+          "500": { "description": "Erro ao buscar usuário" }
+        }
+      },
+      "put": {
+        "summary": "Atualiza nome e e-mail do usuário autenticado",
+        "tags": ["Autenticação"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": { "type": "string", "example": "Novo Nome" },
+                  "email": { "type": "string", "example": "novo@email.com" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Usuário atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "nome": { "type": "string", "example": "Novo Nome" },
+                    "email": { "type": "string", "example": "novo@email.com" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Nome e email são obrigatórios" },
+          "401": { "description": "Token não fornecido ou inválido" },
+          "500": { "description": "Erro ao atualizar usuário" }
+        }
+      }
+    },
+    "/api/plantas": {
+      "post": {
+        "summary": "Cria uma nova planta",
+        "tags": ["Plantas"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": { "type": "string", "example": "Minha Planta" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Planta criada com sucesso" },
+          "400": { "description": "Nome da planta é obrigatório" },
+          "500": { "description": "Erro ao criar planta" }
+        }
+      },
+      "get": {
+        "summary": "Lista todas as plantas do usuário autenticado",
+        "tags": ["Plantas"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Lista de plantas" },
+          "500": { "description": "Erro ao buscar plantas" }
+        }
+      }
+    },
+    "/api/plantas/{id}": {
+      "get": {
+        "summary": "Detalha uma planta pelo ID",
+        "tags": ["Plantas"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Dados da planta" },
+          "404": { "description": "Planta não encontrada" },
+          "500": { "description": "Erro ao buscar planta" }
+        }
+      },
+      "put": {
+        "summary": "Atualiza uma planta pelo ID",
+        "tags": ["Plantas"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": { "type": "string", "example": "Novo Nome" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Planta atualizada com sucesso" },
+          "404": { "description": "Planta não encontrada" },
+          "500": { "description": "Erro ao atualizar planta" }
+        }
+      },
+      "delete": {
+        "summary": "Remove uma planta pelo ID",
+        "tags": ["Plantas"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Planta removida com sucesso" },
+          "404": { "description": "Planta não encontrada" },
+          "500": { "description": "Erro ao remover planta" }
+        }
+      }
+    },
+    "/api/plantas/{plantId}/alertlimit": {
+      "post": {
+        "summary": "Configura ou atualiza o limite de umidade para alertas de uma planta",
+        "tags": ["Plantas"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "plantId",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "minUmidade": { "type": "number", "example": 40.0 }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Limite configurado/atualizado com sucesso" },
+          "400": { "description": "minUmidade deve ser um número" },
+          "500": { "description": "Erro ao configurar limite de alerta" }
+        }
+      },
+      "get": {
+        "summary": "Consulta o limite de umidade configurado para uma planta",
+        "tags": ["Plantas"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "plantId",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Limite de alerta da planta" },
+          "404": { "description": "Limite não configurado" },
+          "500": { "description": "Erro ao consultar limite de alerta" }
+        }
+      }
+    },
+    "/api/plantas/{plantId}/alertas": {
+      "get": {
+        "summary": "Lista o histórico de alertas de uma planta",
+        "tags": ["Plantas"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "plantId",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Lista de alertas" },
+          "500": { "description": "Erro ao buscar alertas" }
+        }
+      }
+    },
+    "/api/plantas/{plantId}/sensordata": {
+      "post": {
+        "summary": "Registra dados de temperatura e umidade do sensor para uma planta",
+        "tags": ["Plantas"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "plantId",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "temperatura": { "type": "number", "example": 23.5 },
+                  "umidade": { "type": "number", "example": 60.2 }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Dados registrados com sucesso" },
+          "400": { "description": "Temperatura e umidade devem ser números" },
+          "500": { "description": "Erro ao registrar dados do sensor" }
+        }
+      },
+      "get": {
+        "summary": "Lista o histórico de dados do sensor de uma planta",
+        "tags": ["Plantas"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "plantId",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Histórico de dados do sensor" },
+          "500": { "description": "Erro ao buscar histórico do sensor" }
+        }
+      }
+    }
+  }
+}
