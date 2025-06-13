@@ -10,7 +10,7 @@
 **Membros da equipe:**
 - Paulo Henrique B. A. Filho
 - Vinicius R. Oliveira  
-- Natan Bizinoto
+- Nathan Bizinoto
 
 ## 📋 Sobre o Projeto
 
