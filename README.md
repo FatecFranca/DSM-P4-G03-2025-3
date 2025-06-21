@@ -12,6 +12,8 @@
 - Vinicius R. Oliveira  
 - Nathan Bizinoto
 
+## Link para a apresentação no youtube -> [clique aqui](https://www.youtube.com/watch?v=UfU8f0h_MXI)
+
 ## 📋 Sobre o Projeto
 
 O SmartPlant é um sistema completo de monitoramento inteligente de plantas que integra tecnologias IoT, aplicações web e móveis para fornecer uma solução abrangente de cuidado de plantas. O sistema monitora em tempo real condições ambientais como temperatura e umidade, enviando alertas quando os parâmetros saem dos limites ideais.
