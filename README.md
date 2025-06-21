@@ -12,8 +12,8 @@
 - Vinicius R. Oliveira  
 - Nathan Bizinoto
 
-## Link para a apresentação no youtube -> [clique aqui](https://www.youtube.com/watch?v=UfU8f0h_MXI)
-## Link para a aplicação -> [clique aqui](https://smart-plant-pi.vercel.app/)
+## 🌱 Link para a apresentação no youtube -> [clique aqui](https://www.youtube.com/watch?v=UfU8f0h_MXI)
+## 🌱 Link para a aplicação -> [clique aqui](https://smart-plant-pi.vercel.app/)
 
 ## 📋 Sobre o Projeto
 
